@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bremen シフト管理</title>
+    <meta name="description" content="Bremenスタッフのシフト管理アプリ - 簡単に出勤予定を確認・管理">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bremen Shift">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="admin_styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="header__title">Bremen Shift</h1>
+            <nav class="header__nav">
+                <button class="nav-btn active" data-view="home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Today</span>
+                </button>
+                <button class="nav-btn" data-view="calendar">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">カレンダー</span>
+                </button>
+                <button class="nav-btn" data-view="summary">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">サマリー</span>
+                </button>
+                <button class="nav-btn" data-view="admin">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">設定</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home View -->
+            <section id="home-view" class="view active">
+                <div class="view-header">
+                    <h2 class="view-title">本日の出勤メンバー</h2>
+                    <p class="view-date" id="today-date"></p>
+                </div>
+                <div class="staff-list" id="today-staff-list">
+                    <!-- Staff cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Calendar View -->
+            <section id="calendar-view" class="view">
+                <div class="view-header">
+                    <div class="month-navigation">
+                        <button class="month-nav-btn" id="prev-month">◀</button>
+                        <h2 class="view-title" id="current-month"></h2>
+                        <button class="month-nav-btn" id="next-month">▶</button>
+                    </div>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <span>日</span>
+                        <span>月</span>
+                        <span>火</span>
+                        <span>水</span>
+                        <span>木</span>
+                        <span>金</span>
+                        <span>土</span>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar cells will be inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day Detail View -->
+            <section id="day-detail-view" class="view">
+                <div class="view-header">
+                    <button class="back-btn" id="back-to-calendar">← 戻る</button>
+                    <h2 class="view-title" id="detail-date"></h2>
+                    <button class="add-btn" id="add-shift-btn">+ 追加</button>
+                </div>
+                <div class="staff-list" id="day-staff-list">
+                    <!-- Staff cards for selected day -->
+                </div>
+            </section>
+
+            <!-- Edit View -->
+            <section id="edit-view" class="view">
+                <div class="view-header">
+                    <button class="back-btn" id="back-from-edit">← 戻る</button>
+                    <h2 class="view-title">シフト編集</h2>
+                    <button class="save-btn" id="save-shift-btn">保存</button>
+                </div>
+                <div class="edit-form">
+                    <!-- Staff Selection -->
+                    <div class="form-section">
+                        <label class="form-label">スタッフ</label>
+                        <div class="staff-selector" id="staff-selector">
+                            <!-- Injected via JS -->
+                        </div>
+                        <input type="hidden" id="edit-staff">
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="form-section">
+                        <label class="form-label">日付</label>
+                        <div class="date-input-wrapper">
+                            <input type="date" class="form-input" id="edit-date">
+                        </div>
+                    </div>
+
+                    <!-- Time Selection -->
+                    <div class="form-section">
+                        <label class="form-label">勤務時間</label>
+                        <div class="time-presets" id="time-presets">
+                            <button class="preset-btn" data-in="11:00" data-out="24:00">11-24</button>
+                            <button class="preset-btn" data-in="13:00" data-out="18:00">13-18</button>
+                            <button class="preset-btn" data-in="17:00" data-out="22:00">17-22</button>
+                            <button class="preset-btn" data-in="11:00" data-out="18:00">11-18</button>
+                            <button class="preset-btn" data-in="18:00" data-out="24:00">18-24</button>
+                            <button class="preset-btn outline" id="clear-time-btn">クリア</button>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="sub-label">IN</label>
+                                <select class="form-input" id="edit-in-time"></select>
+                            </div>
+                            <div class="form-group center-arrow">
+                                <span>➡</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="sub-label">OUT</label>
+                                <select class="form-input" id="edit-out-time"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Type/Note Selection -->
+                    <div class="form-section">
+                        <label class="form-label">区分・特記事項</label>
+                        <div class="note-chips" id="note-chips">
+                            <button class="chip-btn active" data-val="">通常</button>
+                            <button class="chip-btn" data-val="台湾出張">台湾出張</button>
+                            <button class="chip-btn" data-val="休暇">休暇</button>
+                            <button class="chip-btn" data-val="半休">半休</button>
+                        </div>
+                        <input type="text" class="form-input mt-2" id="edit-note" placeholder="その他（自由入力）">
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="delete-btn" id="delete-shift-btn">このシフトを削除</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary View -->
+            <section id="summary-view" class="view">
+                <div class="view-header">
+                    <div class="month-navigation">
+                        <button class="month-nav-btn" id="summary-prev-month">◀</button>
+                        <h2 class="view-title" id="summary-month"></h2>
+                        <button class="month-nav-btn" id="summary-next-month">▶</button>
+                    </div>
+                </div>
+                <div class="summary-container" id="summary-container">
+                    <!-- Summary cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Admin View -->
+            <section id="admin-view" class="view">
+                <div class="view-header">
+                    <h2 class="view-title">設定・管理</h2>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="admin-subtitle">データ管理</h3>
+                    <div class="data-manage-container">
+                        <div class="data-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">登録スタッフ</span>
+                                <span class="stat-value" id="user-count">0名</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">登録シフト</span>
+                                <span class="stat-value" id="shift-count">0件</span>
+                            </div>
+                        </div>
+                        <div class="data-actions">
+                            <button class="delete-btn full-width" id="reset-shifts-btn">全てのシフト履歴を削除</button>
+                        </div>
+                        <p class="sync-note">※削除すると元に戻せません。必要であれば事前に「クラウドへ保存」してください。</p>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="admin-subtitle">データ連携 (Google Sheets)</h3>
+                    <div class="sync-config">
+                        <label class="form-label">GAS Web App URL</label>
+                        <input type="text" class="form-input" id="gas-url"
+                            placeholder="https://script.google.com/macros/s/...">
+                        <div class="sync-buttons">
+                            <button class="sync-btn upload" id="sync-upload-btn">⬆︎ クラウドへ保存</button>
+                            <button class="sync-btn download" id="sync-download-btn">⬇︎ クラウドから受信</button>
+                        </div>
+                        <div id="sync-status" class="sync-status"></div>
+                        <p class="sync-note">※受信すると現在のデータは上書きされます</p>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h3 class="admin-subtitle">時間プリセット設定</h3>
+                        <div class="preset-add-group">
+                            <select id="new-preset-in" class="form-input micro"></select>
+                            <span>〜</span>
+                            <select id="new-preset-out" class="form-input micro"></select>
+                            <button class="add-btn micro" id="add-preset-btn">+ 追加</button>
+                        </div>
+                    </div>
+                    <div class="preset-list" id="admin-preset-list">
+                        <!-- Preset items will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h3 class="admin-subtitle">スタッフ管理</h3>
+                        <button class="add-btn micro" id="add-staff-btn">+ 追加</button>
+                    </div>
+                    <div class="staff-list" id="admin-staff-list">
+                        <!-- Staff list items will be inserted here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Toast Notification -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Staff Edit Modal -->
+        <div id="staff-modal" class="modal-overlay">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="staff-modal-title">スタッフ編集</h3>
+                    <button class="close-btn" id="close-modal-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="staff-id">
+                    <div class="form-group">
+                        <label class="form-label">名前</label>
+                        <input type="text" class="form-input" id="staff-name" placeholder="例: たいせい">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">時給 (円)</label>
+                        <input type="number" class="form-input" id="staff-rate" placeholder="例: 1200">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="delete-btn text-only" id="delete-staff-btn">削除</button>
+                    <button class="save-btn" id="save-staff-btn">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
