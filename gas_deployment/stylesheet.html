@@ -1146,6 +1146,7 @@ select.form-input option {
     color: var(--text-muted);
     margin-top: 8px;
 }
+
 /* ===================================
    Login View Styles
    =================================== */
@@ -1153,7 +1154,8 @@ select.form-input option {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh; /* Adjust as needed */
+    min-height: 80vh;
+    /* Adjust as needed */
     padding: 20px;
 }
 
@@ -1207,7 +1209,7 @@ select.form-input option {
 .login-tab-btn.active {
     background: var(--surface-card);
     color: var(--primary);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Forms */
@@ -1221,20 +1223,49 @@ select.form-input option {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-y: auto;
+    /* Ensure scrolling */
+}
+
+/* ... existing styles ... */
+
 .large-select {
-    height: 48px;
+    height: auto;
+    /* Allow growth */
+    min-height: 48px;
     font-size: 16px;
     cursor: pointer;
     background-color: var(--surface-bg);
+    padding: 14px 16px;
+    /* Define height via padding */
+    line-height: 1.5;
 }
 
 .login-action-btn {
     width: 100%;
-    height: 48px;
+    height: auto;
+    /* Allow growth */
+    min-height: 48px;
+    padding: 12px 0;
+    /* Define height via padding */
     border: none;
     border-radius: 12px;
     font-size: 16px;
@@ -1264,8 +1295,7 @@ select.form-input option {
     background: var(--surface-bg);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
-}
-/* Data Management Section */
+}/* Data Management Section */
 .data-manage-container {
     background-color: var(--bg-secondary);
     border-radius: 12px;
