@@ -44,8 +44,46 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Login View -->
+            <section id="login-view" class="view active">
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-header">
+                            <h2 class="login-title">おかえりなさい</h2>
+                            <p class="login-subtitle">利用を開始するにはログインしてください</p>
+                        </div>
+
+                        <div class="login-tabs">
+                            <button class="login-tab-btn active" data-tab="staff">スタッフ</button>
+                            <button class="login-tab-btn" data-tab="admin">管理者</button>
+                        </div>
+
+                        <!-- Staff Login Form -->
+                        <div id="staff-login-form" class="login-form active">
+                            <div class="form-group">
+                                <label class="form-label">名前を選択</label>
+                                <select id="login-staff-select" class="form-input large-select">
+                                    <option value="">選択してください</option>
+                                    <!-- Injected via JS -->
+                                </select>
+                            </div>
+                            <button id="staff-login-btn" class="login-action-btn primary" disabled>ログイン</button>
+                        </div>
+
+                        <!-- Admin Login Form -->
+                        <div id="admin-login-form" class="login-form">
+                            <div class="form-group">
+                                <label class="form-label">パスワード</label>
+                                <input type="password" id="admin-password" class="form-input" placeholder="パスワードを入力">
+                            </div>
+                            <button id="admin-login-btn" class="login-action-btn secondary">管理者としてログイン</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Home View -->
-            <section id="home-view" class="view active">
+            <section id="home-view" class="view">
                 <div class="view-header">
                     <h2 class="view-title">本日の出勤メンバー</h2>
                     <p class="view-date" id="today-date"></p>
@@ -262,6 +300,14 @@
                     <div class="form-group">
                         <label class="form-label">時給 (円)</label>
                         <input type="number" class="form-input" id="staff-rate" placeholder="例: 1200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">深夜時給 (22時以降)</label>
+                        <input type="number" class="form-input" id="staff-night-rate" placeholder="例: 1500">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="staff-is-admin" class="form-checkbox">
+                        <label for="staff-is-admin" class="form-label inline">管理者権限を付与する</label>
                     </div>
                 </div>
                 <div class="modal-footer">

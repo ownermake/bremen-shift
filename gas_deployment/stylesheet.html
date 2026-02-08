@@ -1265,3 +1265,146 @@ select.form-input option {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
+/* Data Management Section */
+.data-manage-container {
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.data-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.data-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.delete-btn.full-width {
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+    background-color: rgba(255, 69, 58, 0.15);
+    color: #ff453a;
+    border: 1px solid rgba(255, 69, 58, 0.3);
+}
+
+.delete-btn.full-width:active {
+    background-color: rgba(255, 69, 58, 0.25);
+}
+
+/* Preset Management */
+.preset-add-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.preset-add-group span {
+    color: var(--text-muted);
+}
+
+.form-input.micro {
+    padding: 4px 8px;
+    font-size: 14px;
+    width: auto;
+    flex: 1;
+}
+
+.preset-list {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.preset-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.preset-item:last-child {
+    border-bottom: none;
+}
+
+.preset-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.delete-btn.small {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Staff Rate Display in Admin List */
+.staff-rate-display {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.staff-rate-display.empty {
+    color: #ef4444;
+    /* Alert color for missing rate */
+    font-size: 0.75rem;
+}
+
+/* Checkbox Styles in Modal */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 8px 0;
+}
+
+.form-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.form-label.inline {
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+#staff-night-rate {
+    border-color: #6366f1;
+    background-color: #f5f5ff;
+    color: #333333;
+    /* Ensure dark text on light background */
+}
